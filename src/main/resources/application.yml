@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: all-demo
+  rabbitmq:
+    host: 101.133.170.33
+    username: guest
+    password: guest
+    virtual-host: /ems
