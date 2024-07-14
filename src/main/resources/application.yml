@@ -6,3 +6,4 @@ spring:
     username: guest
     password: guest
     virtual-host: /ems
+    publisher-confirm-type: correlated
