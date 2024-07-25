@@ -57,6 +57,9 @@ class BuilderData2{
         this.param2 = dataBuilder.param2;
     }
 
+    /**
+     * 静态内部类实现构建者模式
+     */
     public static class DataBuilder{
         private Integer id;
         private String param1;
