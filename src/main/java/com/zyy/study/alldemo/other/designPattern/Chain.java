@@ -1,6 +1,7 @@
 package com.zyy.study.alldemo.other.designPattern;
 
 import lombok.*;
+import lombok.Builder;
 
 public class Chain {
     public static void main(String[] args) {
