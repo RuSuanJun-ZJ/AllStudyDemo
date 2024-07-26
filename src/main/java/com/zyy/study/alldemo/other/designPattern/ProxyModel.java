@@ -1,5 +1,9 @@
 package com.zyy.study.alldemo.other.designPattern;
 
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -29,6 +33,19 @@ public class ProxyModel {
         });
         developer.code();
         developer.debug();
+        System.out.println("------------------------------------------------");
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(HelloService.class);
+
+        enhancer.setCallback((MethodInterceptor) (o, method, objects, methodProxy) -> {
+            System.out.println("Before:Hello");
+            Object o1 = methodProxy.invokeSuper(o, objects);
+            System.out.println("After:Hello");
+            return o1;
+        });
+        HelloService helloService = (HelloService) enhancer.create();
+        System.out.println("11");
+        helloService.sayHello();
     }
 }
 interface Account {
@@ -101,5 +118,34 @@ class JavaDeveloper implements Developer {
     @Override
     public void debug() {
         System.out.println("java debug");
+    }
+}
+
+/**
+ * cglib实现动态代理，类未实现接口
+ */
+class HelloService {
+    public HelloService() {
+        System.out.println("HelloService构造");
+    }
+
+    final public String sayHello(String name) {
+        System.out.println("HelloService:sayOthers>>"+name);
+        return null;
+    }
+
+    public void sayHello() {
+        System.out.println("HelloService:sayHello");
+    }
+}
+class MyMethodInterceptor implements MethodInterceptor{
+
+    @Override
+    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+        System.out.println("Before Hello");
+        //method.invoke(o, objects);
+        Object invoke = methodProxy.invokeSuper(o, objects);
+        System.out.println("After Hello");
+        return invoke;
     }
 }
